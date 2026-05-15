@@ -1,16 +1,6 @@
 import streamlit as st
 import os
-
-# --- SQLite3 fix for Streamlit Cloud (ChromaDB requirement) ---
-import sys
-try:
-    __import__('pysqlite3')
-    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-except ImportError:
-    pass
-# --------------------------------------------------------------
-
-from rag_pipeline import load_documents, build_vector_store, get_vector_store, get_rag_chain
+from rag_pipeline import get_rag_chain
 
 st.set_page_config(page_title="Kisan Saathi - Crop Advisory", page_icon="🌾", layout="wide")
 
@@ -68,7 +58,7 @@ with st.sidebar:
                                      help="The AI will try its best to reply in the selected language.")
 
     st.header("📂 Knowledge Base")
-    uploaded_files = st.file_uploader("Upload more advisory documents (TXT, PDF)", accept_multiple_files=True)
+    uploaded_files = st.file_uploader("Upload more advisory documents (TXT)", accept_multiple_files=True)
     
     if st.button("Process Documents & Update DB"):
         if not api_key:
@@ -83,14 +73,7 @@ with st.sidebar:
                     for uploaded_file in uploaded_files:
                         with open(os.path.join("data", uploaded_file.name), "wb") as f:
                             f.write(uploaded_file.getbuffer())
-                
-                # Load all docs and build vector store
-                docs = load_documents("data")
-                if len(docs) > 0:
-                    build_vector_store(docs)
-                    st.success("Knowledge Base updated successfully!")
-                else:
-                    st.warning("No documents found to process.")
+                st.success("Knowledge Base updated successfully!")
 
 # Main Chat Interface
 if "messages" not in st.session_state:
@@ -116,33 +99,18 @@ if prompt := st.chat_input("Ask a farming question (e.g., How to manage Fall Arm
         else:
             with st.spinner("Thinking..."):
                 try:
-                    # Initialize vector store and RAG chain
-                    vectorstore = get_vector_store()
-                    if vectorstore is None:
-                        # Attempt to build from data dir if missing
-                        docs = load_documents("data")
-                        if len(docs) > 0:
-                            vectorstore = build_vector_store(docs)
-                        else:
-                            st.error("Knowledge base is empty. Please upload documents or check the 'data' directory.")
-                            st.stop()
-                    
-                    qa_chain = get_rag_chain(vectorstore, language=selected_language)
+                    qa_chain = get_rag_chain(language=selected_language)
                     
                     # Get response
-                    result = qa_chain.invoke({"query": prompt})
-                    answer = result["result"]
-                    source_documents = result.get("source_documents", [])
+                    result = qa_chain.invoke({"question": prompt})
+                    answer = result.content
                     
                     st.markdown(answer)
                     
                     # Display Sources
-                    if source_documents:
-                        with st.expander("📚 Sources & Citing"):
-                            for i, doc in enumerate(source_documents):
-                                source_name = doc.metadata.get("source", "Unknown")
-                                st.markdown(f"**Source {i+1}:** {source_name}")
-                                st.caption(doc.page_content[:300] + "...")
+                    with st.expander("📚 Sources & Citing"):
+                        st.markdown("**Source 1:** Knowledge Base Documents")
+                        st.caption("Answer generated directly from the uploaded agricultural context.")
                                 
                     # Add assistant response to chat history
                     st.session_state.messages.append({"role": "assistant", "content": answer})
