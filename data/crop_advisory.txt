@@ -1,0 +1,33 @@
+# Kisan Saathi - Crop Advisory Knowledge Base
+
+## 1. Soil and Preparation
+- **Wheat**: Thrives in well-drained, fertile loamy and clayey loamy soils. Prepare the field by ploughing 2-3 times to achieve a fine tilth. Ideal soil pH is between 6.0 and 7.5.
+- **Rice**: Grows best in heavy clay or clay loam soils that can hold water. Puddling is essential before transplanting to reduce water percolation.
+- **Maize**: Requires deep, fertile, well-drained loamy soils. Avoid waterlogged areas.
+- **Cotton**: Black cotton soils (Regur) are highly suitable due to their moisture retentive capacity. Deep ploughing in summer helps expose hidden pests.
+
+## 2. Seasons and Sowing
+- **Kharif Season (Monsoon)**: June to October. Main crops are Rice, Maize, Cotton, and Soybean. Sowing is dependent on the onset of the monsoon.
+- **Rabi Season (Winter)**: October to March. Main crops are Wheat, Mustard, Barley, and Gram. Sowing usually begins after the harvest of Kharif crops when temperatures drop.
+- **Zaid Season (Summer)**: March to June. Main crops are Watermelon, Muskmelon, Cucumber, and Fodder crops.
+
+## 3. Irrigation Guidelines
+- **Rice**: High water requirement. Maintain 5 cm of standing water during transplanting, tillering, and flowering stages. Drain water 10-15 days before harvesting.
+- **Wheat**: Needs 4-6 irrigations. Critical stages for irrigation are Crown Root Initiation (CRI) at 21 days after sowing, tillering, late jointing, flowering, milking, and dough stages.
+- **Cotton**: Water stress during flowering and boll formation leads to square and boll drop. Drip irrigation is highly recommended for cotton to save water and increase yield.
+
+## 4. Fertilizer Application
+- **General Recommendation**: Always conduct a soil test before applying fertilizers. Use organic manure (FYM) or compost during field preparation.
+- **Urea**: Apply in split doses (basal and top dressing) to avoid nitrogen loss due to leaching.
+- **Phosphorus & Potassium**: Usually applied entirely as a basal dose at the time of sowing.
+- **Zinc Deficiency**: Common in rice fields. Apply Zinc Sulphate at 25 kg/ha if deficiency symptoms (brown spots on lower leaves) are observed.
+
+## 5. Pest Control
+- **Fall Armyworm in Maize**: Causes severe damage to leaves. Control using biological methods like releasing Trichogramma pretiosum or spraying Spinosad 45% SC.
+- **Whitefly in Cotton**: Vectors the Leaf Curl Virus. Manage by using yellow sticky traps and spraying Neem Seed Kernel Extract (NSKE 5%) or Imidacloprid if the economic threshold is crossed.
+- **Brown Plant Hopper (BPH) in Rice**: Causes 'hopper burn'. Drain excess water from the field and spray Pymetrozine or Dinotefuran at the base of the plant.
+
+## 6. Crop Diseases
+- **Wheat Rusts (Yellow, Brown, Black)**: Fungal diseases causing colored pustules on leaves and stems. Use resistant varieties and spray Propiconazole 25 EC at the first sign of the disease.
+- **Rice Blast**: Diamond-shaped lesions on leaves and nodes. Treat seeds with Tricyclazole before sowing and spray the same fungicide during the tillering and panicle emergence stages.
+- **Late Blight in Potato**: Water-soaked spots on leaves that rapidly turn black. Prevent by using certified healthy seeds and spraying Mancozeb prophylactically.
