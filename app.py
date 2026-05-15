@@ -1,5 +1,15 @@
 import streamlit as st
 import os
+
+# --- SQLite3 fix for Streamlit Cloud (ChromaDB requirement) ---
+import sys
+try:
+    __import__('pysqlite3')
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
+# --------------------------------------------------------------
+
 from rag_pipeline import load_documents, build_vector_store, get_vector_store, get_rag_chain
 
 st.set_page_config(page_title="Kisan Saathi - Crop Advisory", page_icon="🌾", layout="wide")
