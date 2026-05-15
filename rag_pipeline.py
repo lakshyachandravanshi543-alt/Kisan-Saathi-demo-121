@@ -1,7 +1,8 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
@@ -36,8 +37,8 @@ def build_vector_store(documents, persist_directory="./chroma_db"):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
     
-    # Embeddings: Converting text chunks to dense vectors
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+    # Embeddings: Using local HuggingFace model to avoid API limits and 404 errors
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     
     # Vector Database: Initializing ChromaDB
     vectorstore = Chroma.from_documents(
@@ -51,7 +52,7 @@ def get_vector_store(persist_directory="./chroma_db"):
     if not os.path.exists(persist_directory):
         return None
     
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectorstore = Chroma(
         persist_directory=persist_directory, 
         embedding_function=embeddings
