@@ -37,7 +37,7 @@ def build_vector_store(documents, persist_directory="./chroma_db"):
     texts = text_splitter.split_documents(documents)
     
     # Embeddings: Converting text chunks to dense vectors
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
     
     # Vector Database: Initializing ChromaDB
     vectorstore = Chroma.from_documents(
@@ -51,7 +51,7 @@ def get_vector_store(persist_directory="./chroma_db"):
     if not os.path.exists(persist_directory):
         return None
     
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
     vectorstore = Chroma(
         persist_directory=persist_directory, 
         embedding_function=embeddings
