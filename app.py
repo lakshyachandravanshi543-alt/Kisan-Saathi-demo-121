@@ -7,7 +7,8 @@ try:
     asyncio.get_running_loop()
 except RuntimeError:
     asyncio.set_event_loop(asyncio.new_event_loop())
-from rag_pipeline import get_rag_chain
+
+from rag_pipeline import get_answer
 
 st.set_page_config(page_title="Kisan Saathi - Crop Advisory", page_icon="🌾", layout="wide")
 
@@ -106,11 +107,7 @@ if prompt := st.chat_input("Ask a farming question (e.g., How to manage Fall Arm
         else:
             with st.spinner("Thinking..."):
                 try:
-                    qa_chain = get_rag_chain(language=selected_language)
-                    
-                    # Get response
-                    result = qa_chain.invoke({"question": prompt})
-                    answer = result.content
+                    answer = get_answer(prompt, language=selected_language)
                     
                     st.markdown(answer)
                     

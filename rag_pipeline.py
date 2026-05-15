@@ -1,15 +1,17 @@
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.prompts import PromptTemplate
 
-def get_rag_chain(language="English"):
+def get_answer(question, language="English"):
     """
-    EMERGENCY HACKATHON FIX:
-    Since Streamlit Cloud fails with vector databases, we use 'In-Context RAG'.
-    We load the document text directly into the Gemini prompt. 
-    Gemini has a massive context window, so this works perfectly and is 100% bug-free.
+    Direct function to get an answer. 
+    Bypasses Langchain LCEL (which causes async deadlocks in Streamlit Cloud).
     """
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.1)
+    api_key = os.environ.get("GOOGLE_API_KEY")
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-1.5-flash", 
+        temperature=0.1,
+        google_api_key=api_key
+    )
     
     # Read the mock database directly
     context_text = ""
@@ -33,11 +35,8 @@ CRITICAL INSTRUCTIONS:
 Context from Database:
 {context_text}
 
-Question: {{question}}
+Question: {question}
 Helpful Answer:"""
     
-    QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
-    
-    # Return a simple runnable chain
-    chain = QA_CHAIN_PROMPT | llm
-    return chain
+    response = llm.invoke(template)
+    return response.content
