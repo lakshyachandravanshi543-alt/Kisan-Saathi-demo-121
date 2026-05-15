@@ -17,11 +17,6 @@ st.set_page_config(page_title="Kisan Saathi - Crop Advisory", page_icon="🌾", 
 # Custom CSS for Premium Design
 st.markdown("""
 <style>
-    /* Hide Streamlit default menu and footer */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    
     /* App background and fonts */
     .stApp {
         background-color: #f4fcf4;
