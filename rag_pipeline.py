@@ -1,17 +1,16 @@
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+import requests
+import json
 
 def get_answer(question, language="English"):
     """
-    Direct function to get an answer. 
-    Bypasses Langchain LCEL (which causes async deadlocks in Streamlit Cloud).
+    Direct REST API function to get an answer. 
+    Bypasses Langchain and gRPC completely to prevent Streamlit Cloud network hanging.
+    Uses a strict 30-second timeout so it will NEVER load infinitely.
     """
     api_key = os.environ.get("GOOGLE_API_KEY")
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash", 
-        temperature=0.1,
-        google_api_key=api_key
-    )
+    if not api_key:
+        raise ValueError("API Key not found.")
     
     # Read the mock database directly
     context_text = ""
@@ -22,7 +21,7 @@ def get_answer(question, language="English"):
                 with open(os.path.join(data_dir, file), 'r', encoding='utf-8') as f:
                     context_text += f.read() + "\n\n"
                     
-    template = f"""You are Kisan Saathi, an expert agricultural assistant for Indian farmers. 
+    prompt_text = f"""You are Kisan Saathi, an expert agricultural assistant for Indian farmers. 
 Your goal is to provide accurate, grounded advice based ONLY on the provided context.
 
 CRITICAL INSTRUCTIONS:
@@ -37,6 +36,21 @@ Context from Database:
 
 Question: {question}
 Helpful Answer:"""
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        "contents": [{"parts": [{"text": prompt_text}]}],
+        "generationConfig": {"temperature": 0.1}
+    }
     
-    response = llm.invoke(template)
-    return response.content
+    # Make a direct HTTP REST call with a timeout
+    response = requests.post(url, headers=headers, json=data, timeout=30)
+    response.raise_for_status()
+    
+    result_json = response.json()
+    try:
+        answer = result_json['candidates'][0]['content']['parts'][0]['text']
+        return answer
+    except (KeyError, IndexError):
+        return "I'm sorry, I couldn't generate a response from the API. Please try again."
