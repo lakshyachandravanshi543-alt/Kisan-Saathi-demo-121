@@ -1,5 +1,12 @@
 import streamlit as st
 import os
+import asyncio
+
+# Fix for "There is no current event loop in thread"
+try:
+    asyncio.get_running_loop()
+except RuntimeError:
+    asyncio.set_event_loop(asyncio.new_event_loop())
 from rag_pipeline import get_rag_chain
 
 st.set_page_config(page_title="Kisan Saathi - Crop Advisory", page_icon="🌾", layout="wide")
