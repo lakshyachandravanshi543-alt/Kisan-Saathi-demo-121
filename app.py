@@ -27,6 +27,12 @@ st.markdown("""
         padding: 10px 15px;
         margin-bottom: 10px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        color: black !important;
+    }
+    
+    /* Ensure paragraph text inside chat is also black */
+    [data-testid="stChatMessage"] p {
+        color: black !important;
     }
     
     /* Highlight User vs Assistant */
