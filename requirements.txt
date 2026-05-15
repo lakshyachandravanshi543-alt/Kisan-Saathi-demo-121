@@ -1,8 +1,7 @@
 streamlit==1.32.0
 langchain==0.1.13
-langchain-google-genai==1.0.1
+langchain-google-genai
 chromadb==0.4.24
 python-dotenv==1.0.1
 pypdf==4.1.0
-sentence-transformers==2.5.1
 pysqlite3-binary==0.5.2.post3
